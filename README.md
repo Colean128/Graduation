@@ -1,3 +1,26 @@
+# General information section
+## What license this operating system uses ?
+Graduation is using the MIT License, which can be found at https://en.wikipedia.org/wiki/MIT_License.
+
+## I want to create my own operating system based on Graduation, what I should do ?
+You cannot
+- claim the code as yours
+- copy/paste the operating system and renaming it
+- add malicious code
+- add NDFJay tutorial code and only customize it
+- copy portions of code without crediting
+- remove the author name
+- create a fake operating system and hidding a virus
+- do anything bad
+
+You can
+- add your name to the license
+- add useful code that does not exists in Graduation, or is not native
+- add programs
+- modify the core
+- create an installation system
+- do anything good
+
 # How do I download this ?
 ## Downloading into a ZIP file
 Simply click on `Clone or download`, and then click on `Download ZIP`.
@@ -24,26 +47,3 @@ You can improve Graduation by
 - adding documentation to the Wiki
 - adding useful ressources and tips
 - correcting English errors
-
-# General information section
-## What license this operating system uses ?
-Graduation is using the MIT License, which can be found at https://en.wikipedia.org/wiki/MIT_License.
-
-## I want to create my own operating system based on Graduation, what I should do ?
-You cannot
-- claim the code as yours
-- copy/paste the operating system and renaming it
-- add malicious code
-- add NDFJay tutorial code and only customize it
-- copy portions of code without crediting
-- remove the author name
-- create a fake operating system and hidding a virus
-- do anything bad
-
-You can
-- add your name to the license
-- add useful code that does not exists in Graduation, or is not native
-- add programs
-- modify the core
-- create an installation system
-- do anything good
