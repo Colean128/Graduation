@@ -2,7 +2,7 @@
 ## What license this operating system uses ?
 Graduation is using the MIT License, which can be found at https://en.wikipedia.org/wiki/MIT_License.
 
-## I want to create my own operating system based on Graduation, what I should do ?
+## I want to create my own operating system based on Graduation, what should I do before proceeding ?
 You cannot
 - claim the code as yours
 - copy/paste the operating system and renaming it
