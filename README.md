@@ -10,7 +10,7 @@ You cannot
 - add NDFJay tutorial code and only customize it
 - copy portions of code without crediting
 - remove the author name
-- create a fake operating system and hidding a virus
+- create a fake operating system and hide a virus
 - do anything bad
 
 You can
