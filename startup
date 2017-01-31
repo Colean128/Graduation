@@ -1,1 +1,218 @@
-graduation = {};
+_G["graduation"] = {};
+graduation.version = "0.1.0";
+graduation.stage = "alpha";
+graduation.author = "Redall";
+_G["graduation"].console = {};
+
+_G["graduation"]["console"] = graduation.console;
+
+function graduation.console.write(text, color)
+	local oldcolor = term.getTextColor();
+	
+	term.setTextColor(color);
+	write(text);
+	
+	term.setTextColor(oldcolor);
+end
+
+function graduation.console.print(text, color)
+	graduation.console.write(text .. "\n", color);
+end
+
+function graduation.console.clear()
+	term.setBackgroundColor(colors.black);
+	term.setTextColor(colors.lightGray);
+	term.setCursorPos(1, 1);
+	term.clear();
+end
+
+function graduation.console.setX(x)
+	local cx, cy = term.getCursorPos();
+	
+	term.setCursorPos(x, cy);
+end
+
+function graduation.console.setY(y)
+	local cx, cy = term.getCursorPos();
+	
+	term.setCursorPos(cx, y);
+end
+
+function graduation.console.getX()
+	local cx, cy = term.getCursorPos();
+	
+	return cx;
+end
+
+function graduation.console.getY()
+	local cx, cy = term.getCursorPos();
+	
+	return cy;
+end
+
+function graduation.console.clearColor(color)
+	term.setBackgroundColor(color);
+	term.setTextColor(colors.lightGray);
+	term.setCursorPos(1, 1);
+	term.clear();
+end
+
+_G["graduation"].peripherals = {};
+_G["graduation"].peripherals.list = {};
+
+function graduation.peripherals.getPeripherals()
+	graduation.peripherals.list = {};
+	
+	for index, side in ipairs(rs.getSides()) do
+		if peripheral.isPresent(side) then
+			local peripheral = {
+				side = side,
+				type = peripheral.getType(side),
+				enabled = true,
+			};
+			
+			if peripheral.type ~= "disk" then
+				peripheral.usable = peripheral.getMethods(side);
+			end
+			
+			table.insert(graduation.peripherals.list, peripheral);
+		end
+	end
+end
+
+function graduation.peripherals.isPlugged(side)
+	for index, peripheral in ipairs(graduation.peripherals.list) do
+		if peripheral.side == side then
+			return true;
+		end
+	end
+	
+	return false;
+end
+
+function graduation.peripherals.getPeripheralBySide(side)
+	for index, peripheral in ipairs(graduation.peripherals.list) do
+		if peripheral.side == side then
+			return peripheral;
+		end
+	end
+	
+	return nil;
+end
+
+function graduation.peripherals.getPeripheralByType(t)
+	for index, peripheral in ipairs(graduation.peripherals.list) do
+		if peripheral.type == t then
+			return peripheral;
+		end
+	end
+	
+	return nil;
+end
+
+function graduation.peripherals.setEnabledBySide(side, enable)
+	for index, peripheral in ipairs(graduation.peripherals.list) do
+		if peripheral.side == side then
+			graduation.peripherals.list[index].enabled = enable;
+		end
+	end
+end
+
+function graduation.peripherals.setEnabledByType(t, enable)
+	for index, peripheral in ipairs(graduation.peripherals.list) do
+		if peripheral.type == t then
+			graduation.peripherals.list[index].enabled = enable;
+		end
+	end
+end
+
+_G["graduation"].system = {};
+
+function graduation.system.halt()
+	while true do
+		os.queueEvent("graduation_halt");
+		os.pullEvent();
+	end
+end
+
+-- Theses functions will be modified later
+function graduation.system.restart()
+	os.reboot();
+end
+
+function graduation.system.shutdown()
+	os.shutdown();
+end
+
+-- Code part
+
+graduation.console.clear();
+graduation.console.write("Graduation ", colors.lightGray);
+graduation.console.write(graduation.version .. " ", colors.white);
+graduation.console.write("- In stage ", colors.lightGray);
+graduation.console.print(graduation.stage .. " ", colors.white);
+graduation.console.print("Copyright (C) Redall 2017 - All rights reserved\n", colors.lightGray);
+
+graduation.console.write("Updating peripheral list... ", colors.lightGray);
+graduation.peripherals.getPeripherals();
+graduation.console.print("done", colors.white);
+
+graduation.console.write("Detecting current Graduation setup... ", colors.lightGray);
+graduation.system.onDisk = false;
+graduation.system.path = "";
+
+if fs.exists("/disk/system") and fs.isDir("/disk/system") then
+	graduation.system.onDisk = true;
+	graduation.system.path = "/disk/system";
+end
+local diskIndex = 0;
+while diskIndex ~= 99 do
+	if fs.exists("/disk" .. diskIndex .. "/system") and fs.isDir("/disk" .. diskIndex .. "/system") then
+		graduation.system.onDisk = true;
+		graduation.system.path = "/disk" .. diskIndex .. "/system";
+	end
+	
+	diskIndex = diskIndex + 1;
+end
+if graduation.system.onDisk == false then
+	graduation.system.path = "/" .. fs.getDir(shell.getRunningProgram());
+end
+graduation.console.print("done", colors.white);
+
+graduation.console.write("Graduation is currently on a ", colors.lightGray);
+if graduation.system.onDisk then
+	graduation.console.print("floppy disk", colors.white);
+else
+	graduation.console.print("hard drive", colors.white);
+end
+
+graduation.console.write("Reading configuration... ", colors.lightGray);
+if fs.exists(graduation.system.path .. "/system/configuration.cfg") == false then
+	local configuration = fs.open(graduation.system.path .. "/system/configuration.cfg", "w");
+	local structure = {
+		startup = "/programs/shell/shell",
+	}
+	
+	configuration.write(textutils.serialise(structure));
+	configuration.close();
+end
+
+local configuration = fs.open(graduation.system.path .. "/system/configuration.cfg", "r");
+graduation.system.configuration = textutils.unserialise(configuration.readAll());
+configuration.close();
+graduation.console.write("done", colors.white);
+
+graduation.system.startup = graduation.system.path .. graduation.system.configuration.startup;
+
+if fs.exists(graduation.system.startup) and fs.isDir(graduation.system.startup) == false then
+	os.run({}, graduation.system.startup);
+	
+	graduation.console.write("Graduation kernel ended. System halted.", colors.white);
+	graduation.system.halt();
+else
+	graduation.console.write("Startup file ", colors.lightGray);
+	graduation.console.write(graduation.system.startup, colors.white);
+	graduation.console.write(" does not exists or is a directory. System halted.", colors.lightGray);
+	
+	graduation.system.halt();
+end

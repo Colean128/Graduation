@@ -1,0 +1,80 @@
+_G["graduation"].shell = {};
+graduation.shell.version = "0.1.0";
+
+-- Source: https://github.com/alekso56/ComputercraftLua/blob/master/rom/programs/shell
+function graduation.shell.resolve(path)
+	local schar = string.sub(path, 1, 1);
+	
+	if schar == "/" or schar == "\\" then
+		return fs.combine("", path);
+	else
+		return fs.combine(graduation.shell.path, path);
+	end
+end
+
+function graduation.shell.parse(str)	
+	local isp = string.sub(str, - string.len(" ")) == " ";
+	
+	if isp == false then
+		wstr = str .. " ";
+	else
+		wstr = str;
+	end
+	
+	characters = {};
+	wstr:gsub(".", function(ch) table.insert(characters, ch); end);
+	
+	local recmode = false;
+	local currentrec = "";
+	
+	local currentarg = "";
+	local arguments = {};
+	
+	for index, character in ipairs(characters) do
+		if recmode then
+			if character == "\"" then
+				table.insert(arguments, currentrec);
+				currentrec = "";
+				recmode = false;
+			else
+				currentrec = currentrec .. character;
+			end
+		else
+			if character == "\"" then
+				recmode = true;
+				currentrec = "";
+			elseif character == " " then
+				table.insert(arguments, currentarg);
+				currentarg = "";
+			elseif index - 1 == #characters then
+				table.insert(arguments, currentarg);
+				currentarg = "";
+			else
+				currentarg = currentarg .. character;
+			end
+		end
+	end
+	
+	return arguments;
+end
+
+graduation.console.write("\n\nGraduation Shell ", colors.lightGray);
+graduation.console.write(graduation.shell.version, colors.white);
+graduation.console.write("\n", colors.lightGray);
+
+graduation.shell.running = true;
+graduation.shell.path = graduation.system.path;
+
+while (graduation.shell.running) do
+	term.setTextColor(colors.lightGray);
+	term.setBackgroundColor(colors.black);
+	
+	graduation.console.write(os.getComputerLabel(), colors.gray);
+	graduation.console.write("@", colors.lightGray);
+	graduation.console.write(graduation.shell.path, colors.white);
+	graduation.console.write(" $ ", colors.lightGray);
+	
+	term.setTextColor(colors.white);
+	local command = read();
+	term.setTextColor(colors.lightGray);
+end
