@@ -1,0 +1,7 @@
+{
+  clear = "/programs/clear",
+  ver = "/programs/version",
+  version = "/programs/version",
+  cs = "/programs/clear",
+  cls = "/programs/clear",
+}

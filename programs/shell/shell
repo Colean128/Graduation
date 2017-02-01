@@ -1,5 +1,28 @@
 _G["graduation"].shell = {};
 graduation.shell.version = "0.1.0";
+graduation.shell.aliases = {};
+
+graduation.console.write("Loading aliases... ", colors.lightGray);
+
+if fs.exists(graduation.system.path .. "/programs/shell/aliases.shell") == false then
+	local t = {
+		ver = "/programs/version",
+		version = "/programs/version",
+		clear = "/programs/clear",
+		cls = "/programs/clear",
+		cs = "/programs/clear",
+	};
+	
+	local f = fs.open(graduation.system.path .. "/programs/shell/aliases.shell", "w");
+	f.write(textutils.serialise(t));
+	f.close();
+end
+
+local f = fs.open(graduation.system.path .. "/programs/shell/aliases.shell", "r");
+graduation.shell.aliases = textutils.unserialise(f.readAll());
+f.close();
+
+graduation.console.print("done", colors.white);
 
 -- Source: https://github.com/alekso56/ComputercraftLua/blob/master/rom/programs/shell
 function graduation.shell.resolve(path)
@@ -58,7 +81,7 @@ function graduation.shell.parse(str)
 	return arguments;
 end
 
-graduation.console.write("\n\nGraduation Shell ", colors.lightGray);
+graduation.console.write("\nGraduation Shell ", colors.lightGray);
 graduation.console.write(graduation.shell.version, colors.white);
 graduation.console.write("\n", colors.lightGray);
 
@@ -77,4 +100,32 @@ while (graduation.shell.running) do
 	term.setTextColor(colors.white);
 	local command = read();
 	term.setTextColor(colors.lightGray);
+	
+	local line = graduation.shell.parse(command);
+	
+	if command ~= "" or command ~= " " or command ~= "  " or command ~= "   " or command ~= "    " then
+		local t = line;
+		
+		local nt = {};
+		
+		for index, item in ipairs(t) do
+			if index > 1 then
+				table.insert(nt, item);
+			end
+		end
+		
+		if graduation.shell.aliases[line[1]] ~= nil then
+			local path = graduation.system.path .. graduation.shell.aliases[line[1]];
+			
+			if fs.exists(path) and fs.isDir(path)== false then
+				os.run(nt, path);
+			else
+				graduation.console.print("Bad command or filename.", colors.gray);
+			end
+		elseif fs.exists(line[1] .. graduation.shell.path) then
+			os.run(nt, line[1] .. graduation.shell.path);
+		else
+			graduation.console.print("Bad command or filename.", colors.gray);
+		end
+	end
 end

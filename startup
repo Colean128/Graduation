@@ -200,7 +200,7 @@ end
 local configuration = fs.open(graduation.system.path .. "/system/configuration.cfg", "r");
 graduation.system.configuration = textutils.unserialise(configuration.readAll());
 configuration.close();
-graduation.console.write("done", colors.white);
+graduation.console.print("done", colors.white);
 
 graduation.system.startup = graduation.system.path .. graduation.system.configuration.startup;
 

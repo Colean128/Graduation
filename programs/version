@@ -1,0 +1,11 @@
+if graduation == nil then
+	print("This program cannot be run in CraftOS.");
+else
+	graduation.console.write("Graduation ", colors.lightGray);
+	graduation.console.write(graduation.version, colors.white);
+	graduation.console.write(" - In stage ", colors.lightGray);
+	graduation.console.write(graduation.stage, colors.white);
+	graduation.console.print("\nCopyright (C) Redall 2017 - All rights reserved", colors.lightGray);
+	graduation.console.write("\nSystem path: ", colors.lightGray);
+	graduation.console.print(graduation.system.path, colors.white);
+end
