@@ -1,0 +1,86 @@
+local path = graduation.shell.path;
+
+if graduation.shell.arguments[1] ~= nil then
+	path = graduation.shell.arguments[1];
+end
+
+sleep(0.15);
+
+if fs.exists(path) and fs.isDir(path) then
+	local objects = fs.list(path);
+	
+	graduation.console.write("\n Path: ", colors.lightGray);
+	graduation.console.print("/" .. path, colors.white);
+	
+	local w, h = term.getSize();
+	local mx = h - 3;
+	
+	local cnt = 0;
+	
+	local tsize = 0;
+	
+	local fcount = 0;
+	local dcount = 0;
+	
+	for index, file in ipairs(objects) do
+		local x, y = term.getCursorPos();
+		
+		if cnt > mx then
+			graduation.console.write("Press any key to continue...", colors.white);
+			os.pullEvent("key_up");
+			term.clearLine();
+			term.setCursorPos(1, y);
+			cnt = 0;
+		end
+		
+		local fpath = path .. "/" .. file;
+		
+		term.setCursorPos(1, y);
+		
+		if fs.isDir(fpath) then
+			graduation.console.write(" " .. file, colors.lightGray);
+			fcount = fcount + 1;
+		else
+			graduation.console.write(" " .. file, colors.white);
+			dcount = dcount + 1;
+		end
+		
+		if fs.isDir(fpath) == false then
+			local s = fs.getSize(fpath);
+			
+			term.setCursorPos(w - 20, y);
+			graduation.console.write(s, colors.white);
+			term.setCursorPos(w - 12, y);
+			graduation.console.write(" bytes", colors.lightGray);
+			
+			tsize = tsize + s;
+		end
+
+		term.setCursorPos(w - 4, y);
+		if fs.isDir(fpath) and fs.isReadOnly(fpath) then
+			graduation.console.print("r--", colors.gray);
+		elseif fs.isDir(fpath) then
+			graduation.console.print("rw-", colors.gray);
+		elseif fs.isReadOnly(fpath) then
+			graduation.console.print("r-x", colors.gray);
+		else
+			graduation.console.print("rwx", colors.gray);
+		end
+		
+		cnt = cnt + 1;
+	end
+	
+	graduation.console.write("\n Total files size: ", colors.lightGray);
+	graduation.console.write(tsize, colors.white);
+	graduation.console.print(" bytes", colors.lightGray);
+	
+	graduation.console.write(" " .. fcount, colors.white);
+	graduation.console.print(" total files", colors.lightGray);
+	
+	graduation.console.write(" " .. dcount, colors.white);
+	graduation.console.print(" total folders\n", colors.lightGray);
+else
+	graduation.console.write("ls", colors.white);
+	graduation.console.print(": The given path is not a directory.", colors.lightGray);
+	return;
+end

@@ -1,7 +1,14 @@
 {
-  clear = "/programs/clear",
-  ver = "/programs/version",
+  cd = "/programs/cd",
   version = "/programs/version",
+  ldir = "/programs/ls",
   cs = "/programs/clear",
   cls = "/programs/clear",
+  ld = "/programs/ls",
+  whereami = "/programs/whereami",
+  wai = "/programs/whereami",
+  clear = "/programs/clear",
+  ver = "/programs/version",
+  ls = "/programs/ls",
+  dir = "/programs/ls",
 }

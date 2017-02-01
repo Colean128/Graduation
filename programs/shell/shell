@@ -11,6 +11,13 @@ if fs.exists(graduation.system.path .. "/programs/shell/aliases.shell") == false
 		clear = "/programs/clear",
 		cls = "/programs/clear",
 		cs = "/programs/clear",
+		cd = "/programs/cd",
+		ls = "/programs/ls",
+		dir = "/programs/ls",
+		ld = "/programs/ls",
+		ldir = "/programs/ls",
+		whereami = "/programs/whereami",
+		wai = "/programs/whereami",
 	};
 	
 	local f = fs.open(graduation.system.path .. "/programs/shell/aliases.shell", "w");
@@ -29,7 +36,7 @@ function graduation.shell.resolve(path)
 	local schar = string.sub(path, 1, 1);
 	
 	if schar == "/" or schar == "\\" then
-		return fs.combine("", path);
+		return fs.combine("/", path);
 	else
 		return fs.combine(graduation.shell.path, path);
 	end
@@ -94,7 +101,7 @@ while (graduation.shell.running) do
 	
 	graduation.console.write(os.getComputerLabel(), colors.gray);
 	graduation.console.write("@", colors.lightGray);
-	graduation.console.write(graduation.shell.path, colors.white);
+	graduation.console.write("/" .. graduation.shell.path, colors.white);
 	graduation.console.write(" $ ", colors.lightGray);
 	
 	term.setTextColor(colors.white);
@@ -103,29 +110,37 @@ while (graduation.shell.running) do
 	
 	local line = graduation.shell.parse(command);
 	
-	if command ~= "" or command ~= " " or command ~= "  " or command ~= "   " or command ~= "    " then
-		local t = line;
+	local t = line;
 		
-		local nt = {};
+	local nt = {};
 		
-		for index, item in ipairs(t) do
-			if index > 1 then
-				table.insert(nt, item);
-			end
+	for index, item in ipairs(t) do
+		if index > 1 then
+			table.insert(nt, item);
 		end
-		
+	end
+	
+	graduation.shell.arguments = nt;
+	
+	if graduation.string.empty(command) == false then
 		if graduation.shell.aliases[line[1]] ~= nil then
 			local path = graduation.system.path .. graduation.shell.aliases[line[1]];
 			
 			if fs.exists(path) and fs.isDir(path)== false then
-				os.run(nt, path);
+				os.run({}, path, unpack(nt));
 			else
 				graduation.console.print("Bad command or filename.", colors.gray);
 			end
 		elseif fs.exists(line[1] .. graduation.shell.path) then
-			os.run(nt, line[1] .. graduation.shell.path);
+			os.run({}, line[1] .. graduation.shell.path, unpack(nt));
 		else
-			graduation.console.print("Bad command or filename.", colors.gray);
+			local path = "/" .. graduation.shell.path .. "/" .. line[1];
+			
+			if fs.exists(path) and fs.isDir(path) == false then
+				os.run({}, graduation.shell.resolve("/" .. graduation.shell.path .. "/" .. line[1]), unpack(nt));
+			else
+				graduation.console.print("Bad command or filename.", colors.gray);
+			end
 		end
 	end
 end

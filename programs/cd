@@ -1,0 +1,9 @@
+local npath = graduation.shell.resolve(graduation.shell.arguments[1]);
+
+if fs.exists(npath) and fs.isDir(npath) then
+	graduation.shell.path = npath;
+else
+	graduation.console.write("cd", colors.white);
+	graduation.console.print(": The given path is not a directory.", colors.lightGray);
+	return;
+end

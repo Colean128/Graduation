@@ -2,9 +2,46 @@ _G["graduation"] = {};
 graduation.version = "0.1.0";
 graduation.stage = "alpha";
 graduation.author = "Redall";
-_G["graduation"].console = {};
 
-_G["graduation"]["console"] = graduation.console;
+_G["graduation"].string = {};
+
+function graduation.string.toTable(s)
+	local t = {};
+	s:gsub(".", function(character) table.insert(t, character); end);
+	
+	return t;
+end
+
+function graduation.string.starts(s, start)
+	return string.sub(s, 1, string.len(start)) == start;
+end
+
+function graduation.string.ends(s, en)
+	return en == "" or string.sub(s, - string.len(en)) == en;
+end
+
+function graduation.string.empty(s)
+	local empty = false;
+	
+	local t = graduation.string.toTable(s);
+	if #t < 1 then
+		return true;
+	end
+	
+	local hasFoundChar = false;
+	
+	for index, character in ipairs(t) do
+		if hasFoundChar == false and character == " " or character == "\t" then
+			empty = true;
+		else
+			hasFoundChar = true;
+		end
+	end
+	
+	return empty;
+end
+
+_G["graduation"].console = {};
 
 function graduation.console.write(text, color)
 	local oldcolor = term.getTextColor();
@@ -169,13 +206,13 @@ local diskIndex = 0;
 while diskIndex ~= 99 do
 	if fs.exists("/disk" .. diskIndex .. "/system") and fs.isDir("/disk" .. diskIndex .. "/system") then
 		graduation.system.onDisk = true;
-		graduation.system.path = "/disk" .. diskIndex .. "/system";
+		graduation.system.path = "disk" .. diskIndex .. "/system";
 	end
 	
 	diskIndex = diskIndex + 1;
 end
 if graduation.system.onDisk == false then
-	graduation.system.path = "/" .. fs.getDir(shell.getRunningProgram());
+	graduation.system.path = fs.getDir(shell.getRunningProgram());
 end
 graduation.console.print("done", colors.white);
 
