@@ -119,10 +119,16 @@ while (graduation.shell.running) do
 	term.setTextColor(colors.lightGray);
 	term.setBackgroundColor(colors.black);
 	
-	graduation.console.write(os.getComputerLabel(), colors.gray);
+	local lab = os.getComputerLabel();
+	if lab == nil then
+		lab = "Computer";
+	end
+	
+	graduation.console.write(lab, colors.gray);
 	graduation.console.write("@", colors.lightGray);
 	graduation.console.write("/" .. graduation.shell.path, colors.white);
 	graduation.console.write(" $ ", colors.lightGray);
+	
 	
 	term.setTextColor(colors.white);
 	local command = read();

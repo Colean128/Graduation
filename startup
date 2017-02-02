@@ -108,7 +108,7 @@ function graduation.peripherals.getPeripherals()
 				enabled = true,
 			};
 			
-			if peripheral.type ~= "disk" then
+			if peripheral.type ~= "drive" then
 				peripheral.usable = peripheral.getMethods(side);
 			end
 			
@@ -200,13 +200,14 @@ graduation.system.path = "";
 
 if fs.exists("/disk/system") and fs.isDir("/disk/system") then
 	graduation.system.onDisk = true;
-	graduation.system.path = "/disk/system";
+	graduation.system.path = "disk";
 end
+
 local diskIndex = 0;
 while diskIndex ~= 99 do
-	if fs.exists("/disk" .. diskIndex .. "/system") and fs.isDir("/disk" .. diskIndex .. "/system") then
+	if fs.exists("/disk" .. diskIndex .. "/") and fs.isDir("/disk" .. diskIndex .. "/") then
 		graduation.system.onDisk = true;
-		graduation.system.path = "disk" .. diskIndex .. "/system";
+		graduation.system.path = "disk" .. diskIndex .. "";
 	end
 	
 	diskIndex = diskIndex + 1;
