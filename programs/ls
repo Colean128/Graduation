@@ -13,9 +13,9 @@ if fs.exists(path) and fs.isDir(path) then
 	graduation.console.print("/" .. path, colors.white);
 	
 	local w, h = term.getSize();
-	local mx = h - 3;
+	local mx = h - 2;
 	
-	local cnt = 0;
+	local cnt = 2;
 	
 	local tsize = 0;
 	
@@ -70,7 +70,10 @@ if fs.exists(path) and fs.isDir(path) then
 		cnt = cnt + 1;
 	end
 	
-	graduation.console.write("\n Total files size: ", colors.lightGray);
+	graduation.console.write("\n Path: ", colors.lightGray);
+	graduation.console.print("/" .. path, colors.white);
+	
+	graduation.console.write(" Total files size: ", colors.lightGray);
 	graduation.console.write(tsize, colors.white);
 	graduation.console.print(" bytes", colors.lightGray);
 	

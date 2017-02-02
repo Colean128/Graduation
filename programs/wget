@@ -1,0 +1,56 @@
+if graduation.shell.arguments[1] == nil and graduation.shell.arguments[2] == nil then
+	graduation.console.print("Usage: wget <file> <url>", colors.lightGray);
+	return;
+end
+
+local spath = graduation.shell.resolve(graduation.shell.arguments[1]);
+
+if fs.exists(spath) then
+	graduation.console.write("wget", colors.white);
+	graduation.console.print(": The given path already exists.", colors.lightGray);
+	return;
+end
+
+graduation.console.write("Requesting URL ", colors.lightGray);
+graduation.console.write(graduation.shell.arguments[2], colors.lightGray);
+graduation.console.write("... ", colors.lightGray);
+
+http.request(graduation.shell.arguments[2]);
+
+local isRequesting = true;
+
+while isRequesting do
+	local ev, url, data = os.pullEvent();
+	
+	if ev == "http_success" then
+		if url == graduation.shell.arguments[2] then
+			graduation.console.print("done", colors.white);
+			
+			graduation.console.write("Downloading data... ", colors.lightGray);
+			
+			local content = data.readAll();
+			data.close();
+			
+			graduation.console.print("done", colors.white);
+			
+			graduation.console.write("Saving data... ", colors.lightGray);
+			local filestream = fs.open(spath, "w");
+			filestream.write(content);
+			filestream.close();
+			
+			graduation.console.print("done", colors.white);
+			
+			isRequesting = false;
+		else
+			graduation.console.print("failed", colors.white);
+			graduation.console.print("The source URL is not the same as the responded URL.", colors.lightGray);
+			
+			isRequesting = false;
+		end
+	elseif ev == "http_failure" then
+		graduation.console.print("failed", colors.white);
+		graduation.console.print("The source URL is not correct, is not online, is busy, or does not exists.", colors.lightGray);
+		
+		isRequesting = false;
+	end
+end

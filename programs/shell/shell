@@ -34,6 +34,10 @@ if fs.exists(graduation.system.path .. "/programs/shell/aliases.shell") == false
 		del = "/programs/del",
 		remove = "/programs/del",
 		delete = "/programs/del",
+		wget = "/programs/wget",
+		download = "/programs/wget",
+		dl = "/programs/wget",
+		wg = "/programs/wget",
 	};
 	
 	local f = fs.open(graduation.system.path .. "/programs/shell/aliases.shell", "w");
