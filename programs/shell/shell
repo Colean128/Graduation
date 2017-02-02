@@ -18,6 +18,9 @@ if fs.exists(graduation.system.path .. "/programs/shell/aliases.shell") == false
 		ldir = "/programs/ls",
 		whereami = "/programs/whereami",
 		wai = "/programs/whereami",
+		cat = "/programs/cat",
+		type = "/programs/cat",
+		lc = "/programs/cat",
 	};
 	
 	local f = fs.open(graduation.system.path .. "/programs/shell/aliases.shell", "w");

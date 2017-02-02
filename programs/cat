@@ -1,0 +1,27 @@
+local path = graduation.shell.resolve(graduation.shell.arguments[1]);
+
+if graduation.shell.arguments[1] ~= nil and fs.exists(path) and fs.isDir(path) == false then
+	local d = fs.open(path, "r");
+	
+	local l = "";
+	local c = {};
+	
+	while l ~= nil do
+		l = d.readLine();
+		table.insert(c, l);
+	end
+	
+	d.close();
+	
+	for index, text in ipairs(c) do
+		
+		local tc = graduation.string.toTable(text);
+		local xw, yw = term.getCursorPos();
+		
+		graduation.console.print(text, colors.lightGray);
+	end
+else
+	graduation.console.write("cat", colors.white);
+	graduation.console.print(": The given path is not a file.", colors.lightGray);
+	return;
+end

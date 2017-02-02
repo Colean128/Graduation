@@ -1,2 +1,2 @@
 graduation.console.write("You are in folder ", colors.lightGray);
-graduation.console.print(graduation.shell.path, colors.white);
+graduation.console.print("/" .. graduation.shell.path, colors.white);
