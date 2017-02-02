@@ -21,6 +21,19 @@ if fs.exists(graduation.system.path .. "/programs/shell/aliases.shell") == false
 		cat = "/programs/cat",
 		type = "/programs/cat",
 		lc = "/programs/cat",
+		copy = "/programs/cp",
+		xcopy = "/programs/cp",
+		cp = "/programs/cp",
+		cf = "/programs/cp",
+		mv = "/programs/mv",
+		move = "/programs/mv",
+		mf = "/programs/mv",
+		movefile = "/programs/mv",
+		movef = "/programs/mv",
+		rm = "/programs/del",
+		del = "/programs/del",
+		remove = "/programs/del",
+		delete = "/programs/del",
 	};
 	
 	local f = fs.open(graduation.system.path .. "/programs/shell/aliases.shell", "w");

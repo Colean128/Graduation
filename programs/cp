@@ -1,0 +1,20 @@
+if graduation.shell.arguments[1] == nil or graduation.shell.arguments[2] == nil then
+	graduation.console.print("Usage: cp <source> <destination>", colors.lightGray);
+	return;
+end
+
+local spath = graduation.shell.resolve(graduation.shell.arguments[1]);
+local dpath = graduation.shell.resolve(graduation.shell.arguments[2]);
+
+if fs.exists(spath) == false then
+	graduation.console.write("cp", colors.white);
+	graduation.console.print(": The first given path does not exists.", colors.lightGray);
+	return;
+end
+
+fs.copy(spath, dpath);
+
+graduation.console.write("Copied ", colors.lightGray);
+graduation.console.write(spath, colors.white);
+graduation.console.write(" to ", colors.lightGray);
+graduation.console.print(dpath, colors.white);
