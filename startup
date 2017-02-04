@@ -21,24 +21,18 @@ function graduation.string.ends(s, en)
 end
 
 function graduation.string.empty(s)
-	local empty = false;
+	return s:find("^[\t ]") or #s == 0;
+end
+
+function graduation.string.generate(l)
+	local c = 0;
+	local str = "";
 	
-	local t = graduation.string.toTable(s);
-	if #t < 1 then
-		return true;
+	while c < l do
+		str = str .. string.char(math.random(1, 255));
 	end
 	
-	local hasFoundChar = false;
-	
-	for index, character in ipairs(t) do
-		if hasFoundChar == false and character == " " or character == "\t" then
-			empty = true;
-		else
-			hasFoundChar = true;
-		end
-	end
-	
-	return empty;
+	return str;
 end
 
 _G["graduation"].console = {};
@@ -180,6 +174,10 @@ end
 function graduation.system.shutdown()
 	os.shutdown();
 end
+
+_G["graduation"].threads = {};
+graduation.threads.list = {};
+
 
 -- Code part
 

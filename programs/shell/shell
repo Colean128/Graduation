@@ -129,7 +129,6 @@ while (graduation.shell.running) do
 	graduation.console.write("/" .. graduation.shell.path, colors.white);
 	graduation.console.write(" $ ", colors.lightGray);
 	
-	
 	term.setTextColor(colors.white);
 	local command = read();
 	term.setTextColor(colors.lightGray);
