@@ -119,7 +119,7 @@ end
 
 function graduation.peripherals.isPlugged(side)
 	for index, peripheral in ipairs(graduation.peripherals.list) do
-		if peripheral.side == side then
+		if peripheral.side == side and peripheral.enabled then
 			return true;
 		end
 	end
@@ -129,7 +129,7 @@ end
 
 function graduation.peripherals.getPeripheralBySide(side)
 	for index, peripheral in ipairs(graduation.peripherals.list) do
-		if peripheral.side == side then
+		if peripheral.side == side and peripheral.enabled then
 			return peripheral;
 		end
 	end
@@ -139,7 +139,7 @@ end
 
 function graduation.peripherals.getPeripheralByType(t)
 	for index, peripheral in ipairs(graduation.peripherals.list) do
-		if peripheral.type == t then
+		if peripheral.type == t and peripheral.enabled then
 			return peripheral;
 		end
 	end
