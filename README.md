@@ -22,7 +22,7 @@ This is currently not available, because this operating system is under a **Alph
 
 # What is this ?
 ## Short version
-Graduation is an portable operating system, which you can install either in **a floppy disk**, or in your **hard disk**.
+Graduation is a portable operating system, which you can install either in **a floppy disk**, or in your **hard disk**.
 
 ## Long version
 Graduation is an portable operating system, which you can install **anywhere**. You can either use for **repairing infected computers**, or for **confidentiality**, and more. Graduation supports both **color** and **monochrome computers**, this mean that you can run Graduation on **any** computer.
