@@ -5,16 +5,6 @@ Graduation is using the MIT License, which can be found at https://en.wikipedia.
 ## I want to create my own operating system based on Graduation, what should I do before proceeding ?
 Before proceeding, you should copy all the repository, and create a separated repository. Do not forget to **credit** before modifying. You should know theses rules:
 
-You cannot
-- claim the code as yours
-- copy/paste the operating system and renaming it
-- add malicious code
-- add NDFJay tutorial code and only customize it
-- copy portions of code without crediting
-- remove the author name
-- create a fake operating system and hide a virus
-- do anything bad
-
 You can
 - add your name to the license
 - add useful code that does not exists in Graduation, or is not native
