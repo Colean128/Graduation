@@ -1,6 +1,6 @@
 _G["graduation"] = {};
-graduation.version = "0.1.0";
-graduation.stage = "alpha";
+graduation.version = "n1";
+graduation.stage = "nightly";
 graduation.author = "Redall and Zayne64";
 
 _G["graduation"].string = {};
@@ -186,7 +186,7 @@ graduation.console.write("Graduation ", colors.lightGray);
 graduation.console.write(graduation.version .. " ", colors.white);
 graduation.console.write("- In stage ", colors.lightGray);
 graduation.console.print(graduation.stage .. " ", colors.white);
-graduation.console.print("Copyright (C) Redall&Zayne64 2017-2019 - All rights reserved\n", colors.lightGray);
+graduation.console.print("Copyright (C) Zayne64 2017-2019 - All rights reserved\n", colors.lightGray);
 
 graduation.console.write("Updating peripheral list... ", colors.lightGray);
 graduation.peripherals.getPeripherals();
